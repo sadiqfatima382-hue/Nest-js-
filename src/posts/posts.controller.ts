@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe } from '@nestjs/common';
 import { PostsService } from './posts.service.js';
 import { Post as PostInterface } from './interfaces/post.interface.js';
 
@@ -15,5 +15,10 @@ export class PostsController {
     return extractAllPost.filter((singlePost) => singlePost.title.toLowerCase().includes(search.toLowerCase()))
    }
    return extractAllPost
+  }
+
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id:number): PostInterface{
+    return this.postsService.findOne(id)
   }
 }
