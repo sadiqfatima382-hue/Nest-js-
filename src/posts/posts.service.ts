@@ -11,6 +11,22 @@ export class PostsService {
     content: "First Post Content",
     authorName: "Fatima",
     createdAt: new Date()
+  },
+
+   {
+    id: 2,
+    title: "Second title",
+    content: "Second Post Content",
+    authorName: "Hamza",
+    createdAt: new Date()
+  },
+
+   {
+    id: 3,
+    title: " Third title",
+    content: "Third Post Content",
+    authorName: "Anam",
+    createdAt: new Date()
   }
  ];
  findAll(): Post [] {

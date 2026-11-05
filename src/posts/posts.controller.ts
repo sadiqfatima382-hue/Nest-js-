@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe } from '@nestjs/common';
 import { PostsService } from './posts.service.js';
-import { Post as PostInterface } from './interfaces/post.interface.js';
+import type { Post as PostInterface } from './interfaces/post.interface.js';
 
 
 @Controller('posts')
