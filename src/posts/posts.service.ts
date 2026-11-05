@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Post } from './interfaces/post.interface.js';
 import { error } from 'console';
+import { date } from 'joi';
 
 @Injectable()
 export class PostsService {
@@ -40,5 +41,17 @@ export class PostsService {
   }
   return singlePost
  }
-
+  create(createPostData: Omit<Post, 'id'| 'createdAt'>): Post{
+  const newPost : Post ={
+    id : this.getNextId(),
+    ...createPostData,
+    createdAt: new Date()
+  }
+  this.posts.push(newPost)
+  return newPost
+ } 
+ private getNextId(): number{
+  return this,this.posts.length>0?
+  Math.max(...this.posts.map(post=> post.id))+1 : 1
+ }
 }
