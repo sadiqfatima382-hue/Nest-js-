@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Post } from './interfaces/post.interface.js';
-import { error } from 'console';
 import { date } from 'joi';
 
 @Injectable()
@@ -49,9 +48,23 @@ export class PostsService {
   }
   this.posts.push(newPost)
   return newPost
- } 
+ }
+ 
+ update(id:number, updatePostData : Partial<Omit<Post, 'id'|'createdAt'>>): Post{
+    const currentPostIndextoEdit = this.posts.findIndex((post)=> post.id===id);
+    if(currentPostIndextoEdit===-1){
+      throw new NotFoundException(`Post with id ${id} is not found`)                
+    }
+    this.posts[currentPostIndextoEdit]={
+      ...this.posts[currentPostIndextoEdit],
+      ...updatePostData,
+      updatedAt : new Date()
+    }
+    return this.posts[currentPostIndextoEdit]
+  } 
  private getNextId(): number{
-  return this,this.posts.length>0?
+  return this.posts.length>0?
   Math.max(...this.posts.map(post=> post.id))+1 : 1
  }
+
 }
