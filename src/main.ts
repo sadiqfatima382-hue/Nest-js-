@@ -11,7 +11,7 @@ async function bootstrap() {
       whitelist: true,
       forbidNonWhitelisted: true,
       transform: true,
-      disableErrorMessages :true
+      disableErrorMessages :false
     })
   )
   await app.listen(process.env.PORT ?? 3000);
