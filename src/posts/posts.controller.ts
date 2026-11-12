@@ -2,12 +2,13 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe,
 import { PostsService } from './posts.service.js';
 import type { Post as PostInterface } from './interfaces/post.interface.js';
 import { CreatePostDto } from './dto/create-post.dto.js';
+import { PostExistsPipe } from './pipes/post.pipes.js';
 
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
-  @Get()
+  @Get('allposts')
   findAll(@Query('search')search?:string): PostInterface[] {
    const extractAllPost = this.postsService.findAll()
 
@@ -18,7 +19,7 @@ export class PostsController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id:number): PostInterface{
+  findOne(@Param('id', ParseIntPipe, PostExistsPipe) id:number): PostInterface{
     return this.postsService.findOne(id)
   }
 
@@ -29,13 +30,13 @@ export class PostsController {
   }
 
   @Put(':id')
-  update(@Param('id',ParseIntPipe)id : number, @Body() updatePostData:Partial<Omit<PostInterface,'id'|'createdAt'>>):PostInterface{
+  update(@Param('id',ParseIntPipe, PostExistsPipe)id : number, @Body() updatePostData:Partial<Omit<PostInterface,'id'|'createdAt'>>):PostInterface{
     return this.postsService.update(id,updatePostData);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id', ParseIntPipe) id:number): void{
+  remove(@Param('id', ParseIntPipe, PostExistsPipe) id:number): void{
     this.postsService.remove(id);
   }
 }

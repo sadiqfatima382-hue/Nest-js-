@@ -9,7 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { PostsModule } from './posts/posts.module.js';
 import * as joi from 'joi';
 import appConfig from './config/app.config.js';
-
+import {TypeOrmModule} from '@nestjs/typeorm'
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
@@ -23,7 +23,12 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       appSecret: process.env.OBSERVE_APP_SECRET ?? 'YOUR_APP_SECRET',
       serviceId: 'nest-js',
     }),
-    UserModule,ProductModule, PostsModule
+
+    TypeOrmModule.forRoot({type:'postgres', host:'localhost', port: 5432, username: 'postgres', password: 'post', database: 'nest-js'
+                                      
+    }),
+    UserModule,ProductModule, PostsModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],
