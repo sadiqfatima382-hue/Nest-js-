@@ -10,6 +10,7 @@ import { PostsModule } from './posts/posts.module.js';
 import * as joi from 'joi';
 import appConfig from './config/app.config.js';
 import {TypeOrmModule} from '@nestjs/typeorm'
+import { Post } from './posts/entities/post.entity.js';
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
@@ -24,7 +25,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       serviceId: 'nest-js',
     }),
 
-    TypeOrmModule.forRoot({type:'postgres', host:'localhost', port: 5432, username: 'postgres', password: 'post', database: 'nest-js'
+    TypeOrmModule.forRoot({type:'postgres', host:'localhost', port: 5432, username: 'postgres', password: 'post', database: 'nest-js', entities:[Post],
                                       
     }),
     UserModule,ProductModule, PostsModule,
