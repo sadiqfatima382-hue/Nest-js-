@@ -33,6 +33,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
        password: 'post',
        database: 'nest-js', 
        entities:[Post],
+       synchronize:true,
                                       
     }),
     UserModule,ProductModule, PostsModule,
