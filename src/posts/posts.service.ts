@@ -77,18 +77,8 @@ export class PostsService {
    return this.postsRepository.save(updatePostData)
   } 
 
-  remove(id:number):{message : string}{
-    const currentPostIndextoDelete = this.posts.findIndex(post=> post.id===id);
-    if(currentPostIndextoDelete===-1) {
-       throw new NotFoundException(`Post with id ${id} is not found`)
-    }
-    this.posts.splice(currentPostIndextoDelete, 1)
-    return {message: `Post with Id ${id} has been deleted`};
+  async remove(id:number):Promise<void>{
+    const deletedPost = await this.findOne(id)
+    await this.postsRepository.remove(deletedPost)
   }
- private getNextId(): number{
-  return this.posts.length>0?
-  Math.max(...this.posts.map(post=> post.id))+1 : 1
- }
-
-
 }
