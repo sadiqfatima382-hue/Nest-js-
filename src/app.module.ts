@@ -25,7 +25,14 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       serviceId: 'nest-js',
     }),
 
-    TypeOrmModule.forRoot({type:'postgres', host:'localhost', port: 5432, username: 'postgres', password: 'post', database: 'nest-js', entities:[Post],
+    TypeOrmModule.forRoot({
+      type:'postgres', 
+       host:'localhost',
+       port: 5432, 
+       username: 'postgres', 
+       password: 'post',
+       database: 'nest-js', 
+       entities:[Post],
                                       
     }),
     UserModule,ProductModule, PostsModule,
