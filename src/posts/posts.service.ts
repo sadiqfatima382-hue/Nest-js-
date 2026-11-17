@@ -17,7 +17,8 @@ export class PostsService {
     title: "First title",
     content: "First Post Content",
     authorName: "Fatima",
-    createdAt: new Date()
+    createdAt: new Date(),
+    updatedDate:new Date(),
   },
 
    {
@@ -25,7 +26,8 @@ export class PostsService {
     title: "Second title",
     content: "Second Post Content",
     authorName: "Hamza",
-    createdAt: new Date()
+    createdAt: new Date(),
+    updatedDate: new Date(),
   },
 
    {
@@ -33,7 +35,8 @@ export class PostsService {
     title: " Third title",
     content: "Third Post Content",
     authorName: "Anam",
-    createdAt: new Date()
+    createdAt: new Date(),
+    updatedDate:new Date(),
   }
  ];
  constructor(
@@ -57,7 +60,7 @@ export class PostsService {
    content: createPostData.content,
    authorName: createPostData.authorName
   })
-  this.postsRepository.save(newPost)
+  return this.postsRepository.save(newPost);
  }
  
  async update(id:number, updatePostData : UpdatePostDto):Promise<Post>{
@@ -71,6 +74,7 @@ export class PostsService {
    if (updatePostData.authorName){
     updatedPost.authorName = updatePostData.authorName
    }
+   return this.postsRepository.save(updatePostData)
   } 
 
   remove(id:number):{message : string}{

@@ -12,7 +12,7 @@ export class Post {
 @Column({length : 50})
     authorName: string;
 @CreateDateColumn()
-    createdDate: Date;
+    createdAt: Date;
 @UpdateDateColumn()
     updatedDate:Date        
 }
