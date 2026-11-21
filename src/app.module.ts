@@ -11,6 +11,7 @@ import * as joi from 'joi';
 import appConfig from './config/app.config.js';
 import {TypeOrmModule} from '@nestjs/typeorm'
 import { Post } from './posts/entities/post.entity.js';
+import { AuthModule } from './auth/auth.module.js';
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
@@ -36,7 +37,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
        synchronize:true,
                                       
     }),
-    UserModule,ProductModule, PostsModule,
+    UserModule,ProductModule, PostsModule, AuthModule,
 
   ],
   controllers: [AppController],
