@@ -7,33 +7,33 @@ import { Post as PostEntity } from './entities/post.entity.js';
 import { UpdatePostDto } from './dto/update-post.dto.js';
 @Controller('posts')
 export class PostsController {
-  constructor(private readonly postsService: PostsService) {}
+  constructor(private readonly postsService: PostsService) { }
 
   @Get()
-  async findAll():Promise<PostEntity[]>{
+  async findAll(): Promise<PostEntity[]> {
     return this.postsService.findAll()
   }
 
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe, PostExistsPipe) id:number): Promise<PostEntity>{
+  findOne(@Param('id', ParseIntPipe, PostExistsPipe) id: number): Promise<PostEntity> {
     return this.postsService.findOne(id)
   }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() createPostData: CreatePostDto,):Promise<PostEntity> {
+  async create(@Body() createPostData: CreatePostDto,): Promise<PostEntity> {
     return this.postsService.create(createPostData)
   }
 
   @Put(':id')
-  async update(@Param('id',ParseIntPipe, PostExistsPipe)id : number, @Body() updatePostData: UpdatePostDto):Promise<PostEntity>{
-    return this.postsService.update(id,updatePostData);
+  async update(@Param('id', ParseIntPipe, PostExistsPipe) id: number, @Body() updatePostData: UpdatePostDto): Promise<PostEntity> {
+    return this.postsService.update(id, updatePostData);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  async remove(@Param('id', ParseIntPipe, PostExistsPipe) id:number):Promise<void>{
+  async remove(@Param('id', ParseIntPipe, PostExistsPipe) id: number): Promise<void> {
     this.postsService.remove(id);
   }
 }

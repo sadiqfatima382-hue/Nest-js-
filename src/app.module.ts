@@ -9,7 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { PostsModule } from './posts/posts.module.js';
 import * as joi from 'joi';
 import appConfig from './config/app.config.js';
-import {TypeOrmModule} from '@nestjs/typeorm'
+import { TypeOrmModule } from '@nestjs/typeorm'
 import { Post } from './posts/entities/post.entity.js';
 import { AuthModule } from './auth/auth.module.js';
 import { User } from './auth/entities/auth.entity.js';
@@ -17,9 +17,10 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
   imports: [
-    ConfigModule.forRoot({isGlobal: true, 
-    // validationSchema:joi.object({App_Name: joi.string().default("defaultApp")})
-    load: [appConfig]
+    ConfigModule.forRoot({
+      isGlobal: true,
+      // validationSchema:joi.object({App_Name: joi.string().default("defaultApp")})
+      load: [appConfig]
     }),
     ObserveModule.forRoot({
       appKey: process.env.OBSERVE_APP_KEY ?? 'YOUR_APP_KEY',
@@ -28,20 +29,20 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     }),
 
     TypeOrmModule.forRoot({
-      type:'postgres', 
-       host:'localhost',
-       port: 5432, 
-       username: 'postgres', 
-       password: 'post',
-       database: 'nest-js', 
-       entities:[Post, User],
-       synchronize:true,
-                                      
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'postgres',
+      password: 'post',
+      database: 'nest-js',
+      entities: [Post, User],
+      synchronize: true,
+
     }),
-    UserModule,ProductModule, PostsModule, AuthModule,
+    UserModule, ProductModule, PostsModule, AuthModule,
 
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
