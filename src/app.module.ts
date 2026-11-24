@@ -12,6 +12,7 @@ import appConfig from './config/app.config.js';
 import {TypeOrmModule} from '@nestjs/typeorm'
 import { Post } from './posts/entities/post.entity.js';
 import { AuthModule } from './auth/auth.module.js';
+import { User } from './auth/entities/auth.entity.js';
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
@@ -33,7 +34,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
        username: 'postgres', 
        password: 'post',
        database: 'nest-js', 
-       entities:[Post],
+       entities:[Post, User],
        synchronize:true,
                                       
     }),
