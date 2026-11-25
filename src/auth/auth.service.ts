@@ -1,14 +1,16 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User, UserRole } from './entities/auth.entity.js';
 import { Repository } from 'typeorm';
 import { RegisterAuthDto } from './dto/register.dto.js';
+import { LoginAuthDto } from './dto/Login.dto.js';
 import * as bcrypt from 'bcrypt'
 @Injectable()
 export class AuthService {
     constructor(
         @InjectRepository(User) private usersRepository: Repository<User>
     ) { }
+
     async register(RegisterAuthDto: RegisterAuthDto) {
         const existingUser = await this.usersRepository.findOne({
             where: { email: RegisterAuthDto.email }
@@ -31,24 +33,38 @@ export class AuthService {
             message: 'Registration successfuly! Login to continue'
         }
     }
-    async createAdmin(RegisterAuthDto: RegisterAuthDto)  {
-        const existingUser = await this.usersRepository.findOne({
-        where: { email: RegisterAuthDto.email }
-    })
-    if(existingUser) {
-        throw new ConflictException('Email already in use ! Please try again with different email')
-    }
-    const hashedPassword = await this.hashPassword(RegisterAuthDto.password);
 
-     const newlyCreatedUser = this.usersRepository.create({
+    async createAdmin(RegisterAuthDto: RegisterAuthDto) {
+        const existingUser = await this.usersRepository.findOne({
+            where: { email: RegisterAuthDto.email }
+        })
+        if (existingUser) {
+            throw new ConflictException('Email already in use ! Please try again with different email')
+        }
+        const hashedPassword = await this.hashPassword(RegisterAuthDto.password);
+
+        const newlyCreatedUser = this.usersRepository.create({
             email: RegisterAuthDto.email,
             name: RegisterAuthDto.name,
             password: hashedPassword,
             role: UserRole.Admin
         })
-}
+    }
+
+    async login(LoginAuthDto: LoginAuthDto) {
+        const user = await this.usersRepository.findOne({
+            where: { email: LoginAuthDto.email }
+        })
+
+        if (!user || !(await this.verifyPassword(LoginAuthDto.password, user.password)))
+            throw new UnauthorizedException('Account not exists')
+    }
     private async hashPassword(password: string): Promise<string> {
         return bcrypt.hash(password, 10);
     }
+    private async verifyPassword(plainPassword: string, hashedPassword: string): Promise<boolean> {
+        return bcrypt.compare(plainPassword, hashedPassword)
+    }
+
 
 }
